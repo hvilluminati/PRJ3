@@ -1,0 +1,28 @@
+body,html{
+    height: 100%;
+}
+
+#background-img{
+    background-image: url("Image/Web_bg_pic.jpeg");
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+    height: 100%;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.list{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: medium;
+    width: 50%;
+    height: 60%;
+    border-color: red;
+}
+
+h1 {
+    color: orange;
+    text-align: center;
+    }
+    
