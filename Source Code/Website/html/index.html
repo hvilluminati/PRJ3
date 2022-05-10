@@ -1,162 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <style>
-            html{
-                height: 100px;
-            }
-            body{
-                background-image: url('Image/Web_bg_pic.jpeg');
-                height: 100px;
-                background-position: center;
-                background-repeat: no-repeat;
-                background-attachment: fixed;
-                background-size: cover;
-                place-items: center;
-            }
-            h1{
-                color: red;
-            }
-            .content{
-                height: 350px;
-                width: 400px;
-                /* filter: blur(8px);
-                -webkit-filter: blur(8px); */
-                background: rgba(59, 52, 52, 0.8);
-                background-position: center;
-                border-radius: 10px;
-                box-shadow: -3px -3px 9px #aaa9a9a2,
-              3px 3px 7px rgba(147, 149, 151, 0.671);
-                position: absolute;
-                left: 40%;
-                top: 30%;
-            }
-            #payment{
-                height: 150px;
-                width: 200px;
-                /* filter: blur(8px);
-                -webkit-filter: blur(8px); */
-                background: rgba(59, 52, 52, 0.8);
-                background-position: center;
-                border-radius: 10px;
-                box-shadow: -3px -3px 9px #aaa9a9a2,
-              3px 3px 7px rgba(147, 149, 151, 0.671);
-                position: absolute;
-                left: 70%;
-                top: 30%;
-            }
-            #QR-kode{
-                height: 150px;
-                width: 200px;
-                /* filter: blur(8px);
-                -webkit-filter: blur(8px); */
-                background: rgba(59, 52, 52, 0.8);
-                background-position: center;
-                border-radius: 10px;
-                box-shadow: -3px -3px 9px #aaa9a9a2,
-              3px 3px 7px rgba(147, 149, 151, 0.671);
-                position: absolute;
-                left: 70%;
-                top: 55%;
-            }
-            .numberOfBeer{
-                height: 20px;
-                width: 10px;
-                margin-top: 20px;
-                margin-left: 20px;
-                background-color: white;
-            }
-            .content h2{
-                margin: 0;
-                padding:0 0 20px;
-                text-align: center;
-                text-transform: uppercase;
-                color: #fff;
-            }
-            .content p{
-                margin: 0;
-                padding:0;
-                font-weight: bold;
-                text-align: center;
-                text-transform: uppercase;
-                color: #fff;
-                
-            }
-            .content input{
-            width: 10%;
-            }
-
-            #showPaymentMethodBtn{
-                width: 35%;
-                height: 8%;
-                text-align: center;
-                font-weight: bold;
-            }
-            #ADD{
-                width: 15%;
-                height: 8%;
-                text-align: center;
-                font-weight: bold; 
-                margin-left: auto;
-                display: inline-block;
-            }
-            #pay{
-                width: 25%;
-                height: 8%;
-                text-align: center;
-                font-weight: bold; 
-                margin-left: 40%;
-                display: inline-block;
-            }
-            #edit, #cancel{
-                width: 15%;
-                height: 8%;
-                text-align: center;
-                font-weight: bold; 
-                margin-left: auto;
-                display: inline-block;
-            }
-            #demo{
-                height: 200px;
-                width: 200px;
-                background: rgba(59, 52, 52, 0.8);
-                border-radius: 10px;
-                box-shadow: -3px -3px 9px #aaa9a9a2,
-              3px 3px 7px rgba(147, 149, 151, 0.671);
-                position: absolute;
-                left: 20%;
-                top: 30%;
-            }
-            #dem0h3{
-                color: #fff;
-                font-weight: bold;
-                text-align: center;
-            }
-            #orderCount{
-                color: #fff;
-                font-weight: bold;
-                text-align: center;
-            }
-            #orderSize{
-                color: #fff;
-                font-weight: bold;
-                text-align: center;
-            }
-
-            #total,#size{
-                color: #fff;
-                font-weight: bold;
-                text-align: center;
-            }
-           
-
-        </style>
+ 
+        
     </head>
        <body>
         <!-- <script src="index.js"> </script> -->
         
             
-           <div class="content">
+           <!-- <div class="content">
                <h2>QR-Tender</h2>
                <form action="">
                    <p>Enter # of beers  <input id="beerNum" placeholder="Enter Beers" type="number"></p>
@@ -166,14 +18,14 @@
                     <option value="medium">MEDIUM</option>
                     <option value="large">LARGE</option>
                     </select>
-                
-                </p>
+                 -->
+                <!-- </p>
                 <br>
                 
                     <div id="buttons">
                    
                        
-                   <p><input id="ADD" onclick="addToOrder()" type="button" value="ADD"> </p>
+                   <p><input id="ADD" onclick="addProperties()" type="button" value="ADD" style="color: red"> </p>
                    <p><input id="showPaymentMethodBtn" onclick="showPaymentMethod()" type="button" value="Pay methods" style="visibility: hidden">  </p>
                    <p><input id="edit" onclick="editData()" type="button" value="Edit" style="visibility: hidden;"> </p>
                    <p><input id="cancel" onclick="cancelOrder()" type="button" value="Cancel" style="visibility: hidden"> </p>
@@ -201,8 +53,8 @@
                 <h3 id="dem0h3">QR-Code</h1>
 
             </div>
-           
+            -->
 
-            <script src="WebUI.js"></script>
+           
         </body>
 </html>
