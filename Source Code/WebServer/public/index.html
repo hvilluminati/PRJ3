@@ -1,5 +1,5 @@
+<!DOCTYPE html>
 <html>
-
 <head>
 	<style> html {
         height: 100px;
@@ -194,104 +194,28 @@
         width: 30%;
       }
     </style>
-	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/3.5.3/js/tabulator.min.js"></script>
-	<script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/3.5.3/css/tabulator.min.css">
-	</link>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script type="text/javascript">
-		function addToOrder() {
-		        addProperties();
-		        //bare for test i json file
-		        axios.post('http://localhost:8080', {
-		          
-		          "orderCount": document.querySelector("#orderCount").valueAsNumber,
-		          "orderSize": document.querySelector("#orderSize").value
-		        }).then(response => {}).catch(error => alert('Try again'));
-		      }
-		
-		      function addProperties() {
-		
-		        document.getElementById('OrderQuantity').style.visibility = "hidden",
-		        document.getElementById('selectBeer').style.visibility = "hidden",
-		        document.getElementById('showPaymentMethodBtn').style.visibility = "visible",
-		        document.getElementById('edit').style.visibility = "visible",
-		        document.getElementById('cancel').style.visibility = "visible",
-		        document.getElementById('ADD').style.visibility = "hidden",
-		        document.getElementById('beerNum').style.visibility = "hidden"
-		
-		      }
-		
-		      function cancelOrder()
-		    {
-		        document.getElementById('cancel').style.visibility = "hidden",
-		        document.getElementById('OrderQuantity').value = "",
-		        document.getElementById('selectBeer').value = "",
-		        document.querySelector("#orderCount").innerText = 0,
-		        document.getElementById('beerNum').style.visibility = "visible",
-		        document.getElementById('selectBeer').style.visibility = "visible",
-		        document.querySelector("#orderSize").innerText = "SMALL",
-		        document.getElementById('buy').style.visibility = "hidden",
-		        document.getElementById('edit').style.visibility = "hidden",
-		        document.getElementById('ADD').style.visibility = "visible",
-		        document.getElementById('payment').style.visibility = "hidden"
-		    }
-		    function editData()
-		{
-		
-		     document.getElementById('selectBeer').style.visibility = "visible",
-		     document.getElementById('cancel').style.visibility = "hidden",
-		     document.getElementById('OrderQuantity').style.visibility = "visible",
-		     document.getElementById('showPaymentMethodBtn').style.visibility = "hidden",
-		     document.getElementById('edit').style.visibility = "hidden",
-		     document.getElementById('ADD').style.visibility = "visible",
-		     document.getElementById('beerNum').style.visibility = "visible"
-		}
-		
-		function showPaymentMethod()
-		{
-		     document.getElementById('payment').style.visibility = "visible"
-		}
+
 		function showQRCode()
 		{
-		        document.getElementById('QR-kode').style.visibility = "visible"
-		    
+		  document.getElementById('QR-kode').style.visibility = "visible"
 		}
+
+    function getData()
+    {
+      $.get('http://localhost:8080/data', {}, function(data){
+           console.log(data)
+      });
+    };
+
 	</script>
 </head>
 
 <body>
 	<div class="content">
 		<h2>QR-Tender</h2>
-		<!--<form action="">
-			<p>Order Quantity <input id="OrderQuantity" placeholder="#" type="number" style="width: 60px">
-			</p>
-			<br>
-			<p class="size">Size of Order <select id="selectBeer" placeholder="Select size">
-					<option value="small">SMALL</option>
-					<option value="medium">MEDIUM</option>
-					<option value="large">LARGE</option>
-				</select>
-			</p>
-			<br>
-			<div id="buttons">
-				<p>
-					<input id="ADD" onclick="addToOrder()" type="button" value="ADD">
-				</p>
-				<p>
-					<input id="showPaymentMethodBtn" onclick="showPaymentMethod()" type="button" value="Pay methods" style="visibility: hidden">
-				</p>
-				<p>
-					<input id="edit" onclick="editData()" type="button" value="Edit" style="visibility: hidden;">
-				</p>
-				<p>
-					<input id="cancel" onclick="cancelOrder()" type="button" value="Cancel" style="visibility: hidden">
-				</p>
-			</div>
-		</form>-->
-
     <form method="post" action="/">
       <p>Enter # of beers  <input id="beerNum" placeholder="Enter Beers" type="number" name="amount"></p>
       <br>
@@ -335,6 +259,8 @@
 	<div id="QR-kode" style="visibility: hidden">
 		<h3 id="dem0h3">QR-Code </h1>
 	</div>
+  <div>
+    <input id="get_dta_btn" onclick="getData()" type="button" value="get data">
+  </div>
 </body>
-
 </html>
