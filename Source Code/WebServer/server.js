@@ -1,6 +1,7 @@
 const   express = require('express'),
         app = express(),
         port = 8080,
+        https = require('https'),
         fs = require('fs'),
         Config = require('node-json-db/dist/lib/JsonDBConfig').Config;
 
@@ -20,6 +21,19 @@ app.use(session({
         maxAge: (60000 * 60 * 24)
     }
 }));
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
+
+const options = {
+    key: fs.readFileSync('/home/stud/PRJ/localhost-key.pem'),
+    cert: fs.readFileSync('/home/stud/PRJ/localhost.pem'),
+};
+
         
 var db = new JsonDB(new Config("myDataBase", true, false, "/"));
 var user, 
@@ -54,7 +68,8 @@ app.get('/cookie', function(req, res) {
     for (i; i <= last; i++)
     {
         str = (db.exists("/myarray[" + i + "]") ? db.getData("/myarray[" + i + "]/sid") : "nop");
-        if (str == req.cookies["connect.sid"])
+        var str2 = (db.exists("/myarray[" + i + "]") ? db.getData("/myarray[" + i + "]/ssid") : "nop");
+        if (str == req.cookies["connect.sid"] || str2 == req.sessionID)
         {
             user = db.getData("/myarray[" + i + "]");
             exUser = true;
@@ -88,7 +103,35 @@ app.get('/cookie', function(req, res) {
 //_____________________________SEND DATA RQUESTED FROM CLIENT_____________________________
 
 app.get('/data', function(req, res){
-    res.send("Hello!"); //replace with your data here
+    let j = 0;
+    for (j; j <= last; j++)
+    {
+        str = (db.exists("/myarray[" + j + "]") ? db.getData("/myarray[" + j + "]/sid") : "nop");
+        var str2 = (db.exists("/myarray[" + j + "]") ? db.getData("/myarray[" + j + "]/ssid") : "nop");
+        if (str == req.cookies["connect.sid"] || str2 == req.sessionID)
+        {
+            res.json(db.getData("/myarray[" + j + "]"));
+            break;
+        }
+    }
+    //console.log(req.cookies["connect.sid"]);
+    //console.log(db.getData("/myarray[" + 0 + "]/sid"));
+});
+
+app.get('/PaymentWeb.html/data', function(req, res){
+    let j = 0;
+    for (j; j <= last; j++)
+    {
+        str = (db.exists("/myarray[" + j + "]") ? db.getData("/myarray[" + j + "]/sid") : "nop");
+        var str2 = (db.exists("/myarray[" + j + "]") ? db.getData("/myarray[" + j + "]/ssid") : "nop");
+        if (str == req.cookies["connect.sid"] || str2 == req.sessionID)
+        {
+            res.json(db.getData("/myarray[" + j + "]"));
+            break;
+        }
+    }
+    //console.log(req.cookies["connect.sid"]);
+    //console.log(db.getData("/myarray[" + 0 + "]/sid"));
 });
 
 //_____________________________________MAKE ORDER_________________________________________
@@ -123,6 +166,8 @@ app.post('/', function(request, response){
     response.redirect("/cookie");
 });
 
-app.listen(port, function() {
+var server = https.createServer(options, app);
+
+server.listen(port, function() {
     console.log(`Example app listening on port ${port}!`)
 });
