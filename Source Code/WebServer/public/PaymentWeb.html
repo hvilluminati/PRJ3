@@ -20,21 +20,6 @@
             color: red;
         }
 
-        .content {
-            height: 350px;
-            width: 400px;
-            /* filter: blur(8px);
-            -webkit-filter: blur(8px); */
-            background: rgba(59, 52, 52, 0.8);
-            background-position: center;
-            border-radius: 10px;
-            box-shadow: -3px -3px 9px #aaa9a9a2,
-                3px 3px 7px rgba(147, 149, 151, 0.671);
-            position: absolute;
-            left: 40%;
-            top: 30%;
-        }
-
         #payment {
             height: 270px;
             width: 250px;
@@ -87,35 +72,6 @@
             left: 15%;
             top: 25%;
         }
-
-        .content h2 {
-            margin: 0;
-            padding: 0 0 20px;
-            text-align: center;
-            text-transform: uppercase;
-            color: #fff;
-        }
-
-        .content p {
-            margin: 0;
-            padding: 0;
-            font-weight: bold;
-            text-align: center;
-            text-transform: uppercase;
-            color: #fff;
-        }
-
-        .content input {
-            width: 10%;
-        }
-
-        #showPaymentMethodBtn {
-            width: 35%;
-            height: 8%;
-            text-align: center;
-            font-weight: bold;
-        }
-
     
         #pay, #back,#cancel {
             width: 25%;
@@ -125,17 +81,6 @@
             margin-left: 40%;
             /* display: inline-block; */
         }
-        #demo {
-            height: 250px;
-            width: 300px;
-            background: rgba(59, 52, 52, 0.8);
-            border-radius: 10px;
-            box-shadow: -3px -3px 9px #aaa9a9a2,
-                3px 3px 7px rgba(147, 149, 151, 0.671);
-            position: absolute;
-            left: 5%;
-            top: 30%;
-        }
 
         #dem0h3 {
             color: #fff;
@@ -144,44 +89,9 @@
 
         }
 
-      
-     
-
-       
     </style>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/3.5.3/js/tabulator.min.js"></script>
-    <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/3.5.3/css/tabulator.min.css">
-    </link>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript">
-        function addToOrder() {
-            addProperties();
-            //bare for test i json file
-            axios.post('http://localhost:8080', {
-
-                "orderCount": document.querySelector("#orderCount").valueAsNumber,
-                "orderSize": document.querySelector("#orderSize").value
-            }).then(response => {}).catch(error => alert('Try again'));
-        }
-
-        function addProperties() {
-
-         
-          document.getElementById('selectBeer').style.visibility = "hidden",
-          document.getElementById('edit').style.visibility = "visible",
-          document.getElementById('cancel').style.visibility = "visible",
-            document.getElementById('back').style.visibility = "visible",
-            document.getElementById('showPaymentMethodBtn').style.visibility = "visible",
-            document.getElementById('ADD').style.visibility = "hidden",
-                document.getElementById('beerNum').style.visibility = "hidden",
-                document.getElementById('OrderQuantity').style.visibility = "hidden"
-                
-
-        }
-
         let sid,
             ssid,
             small_amount,
@@ -201,55 +111,37 @@
                 console.log(small_amount);
                 console.log(medium_amount);
                 console.log(large_amount);
-                $("#qrset").attr("src", "https://api.qrserver.com/v1/create-qr-code/?data=" + sid + "&amp;size=150x150");
+                $("#qrset").attr("src", "https://api.qrserver.com/v1/create-qr-code/?data=" + (typeof sid == 'undefined' ? ssid : sid) + "&amp;size=150x150");
             });
-        };
+        }
 
-    //          function getQRkode()
-    // {
-    // //   $.get('http://localhost:8080/getQRkode', {}, function(getQRkode){
-    // //       //  console.log(data)
-    // //       document.getElementById("print-QR-kode").innerText = getQRkode
-    // //     });
-    // // };
+        function goBack()
+        {
+            $.get('/', {})
+        }
 
         function showQRCode() {
             document.getElementById('QR-kode').style.visibility = "visible"
-
         }
 
     </script>
 </head>
-
 <body>
-    
-    <div id="payment" >
+    <div id="payment">
         <h3 id="dem0h3">Payment Test </h1>
-            <p id="total">Amount : </p>
-            <div id="amount"></div>
-            <p>
-                <input id="pay" onclick="showQRCode(); getData()" type="button" value="Pay">
-            </p>
-            <p>
-                <button id="back" onclick="history.back()">Back</button>
-            </p>
-            <p>
-                <input id="cancel" onclick="window.location.reload();" type="button" value="Cancel">
-            
-               </p>
+        <p id="total">Amount : </p>
+        <p>
+            <input id="pay" onclick="showQRCode(); getData()" type="button" value="Pay">
+        </p>
+        <p>
+            <button id="back" onclick="history.back()">Back</button>
+        </p>
     </div>
     <div id="QR-kode" style="visibility: hidden">
         <h3 id="dem0h3">QR-Code </h1>
-            <div id="print-QR-kode"  >
-                <img id="qrset" style="height: 200px; width: 200px;" src="" alt="" title="HELLO" />
-            </div>
+        <div id="print-QR-kode">
+            <img id="qrset" style="height: 200px; width: 200px;" src="" alt="" title="HELLO"/>
+        </div>
     </div>
 </body>
-
 </html>
-
-
-
-
-
-

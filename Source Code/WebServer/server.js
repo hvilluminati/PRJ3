@@ -3,12 +3,18 @@ const   express = require('express'),
         port = 8080,
         https = require('https'),
         fs = require('fs'),
-        Config = require('node-json-db/dist/lib/JsonDBConfig').Config;
+        Config = require('node-json-db/dist/lib/JsonDBConfig').Config,
+        events = require("events"),
+        util = require("util"),
+        { exec } = require('child_process');
 
 var     JsonDB = require('node-json-db').JsonDB,
         session = require('express-session'),
         cookieParser = require('cookie-parser'),
         publicDir = require('path').join(__dirname,'/public');
+
+require('log-timestamp');
+
 
 app.use(express.static(publicDir));
 app.use(express.urlencoded());
@@ -18,7 +24,7 @@ app.use(session({
     resave:false,
     saveUninitialized:false,
     cookie:{
-        maxAge: (60000 * 60 * 24)
+        maxAge: Number.MAX_SAFE_INTEGER
     }
 }));
 app.use(function (req, res, next) {
@@ -30,15 +36,87 @@ app.use(function (req, res, next) {
 });
 
 const options = {
-    key: fs.readFileSync('/home/stud/PRJ/localhost-key.pem'),
-    cert: fs.readFileSync('/home/stud/PRJ/localhost.pem'),
+    key: fs.readFileSync(__dirname + '/localhost-key.pem'),
+    cert: fs.readFileSync(__dirname + '/localhost.pem'),
 };
 
-        
+
 var db = new JsonDB(new Config("myDataBase", true, false, "/"));
 var user, 
     last = 0,
     tmpUser;
+
+
+function sendSize(size)
+{
+    exec('sh ' + (size === 'small' ? 'small.sh' : (size === 'medium' ? 'medium.sh' : 'large.sh')),
+    (error, stdout, stderr) => {
+        console.log(stdout);
+        console.log(stderr);
+        if (error !== null) {
+            console.log(`exec error: ${error}`);
+        }
+    });
+}
+
+
+function getDrank(cookie)
+{
+    var i = 0,
+        exi = false,
+        sid,
+        ssid;
+
+    for (i; i < db.count("/myarray"); i++)
+    {
+        sid = (db.exists("/myarray[" + i + "]") ? db.getData("/myarray[" + i + "]/sid").trim() : "");
+        ssid = (sid != cookie ? db.getData("/myarray[" + i + "]/ssid").trim() : "");
+        if (sid == cookie || ssid == cookie) { exi = true; break; }
+    }
+
+    (sid == cookie  ? console.log("The order has been recognized by cookie")  : 
+    (ssid == cookie ? console.log("The order has been recognized by session") : ""));
+
+    if (exi == true)
+    {
+        var order = db.getData("/myarray[" + i + "]");
+        console.log(order.small.amount);
+        if (order.small.amount != 0){
+            order.small.amount--;
+            sendSize('small');
+            console.log("The customer now only has " + order.small.amount + " small beers left");
+        } 
+        else if (order.medium.amount != 0){
+            order.medium.amount--;
+            sendSize('medium');
+            console.log("The customer now only has " + order.medium.amount + " medium beers left");
+        } 
+        else if (order.large.amount != 0){
+            order.large.amount--;
+            sendSize('large');
+            console.log("The customer now only has " + order.large.amount + " large beers left");
+        }
+        else
+            console.log("No drinks has been ordered by this customer");
+
+        db.push("/myarray[" + i + "]", order);
+    }
+}
+
+fs.watch(__dirname + '/qr_read/most_recent_qr', (event, filename) => {
+    if (filename && event ==='change') {
+        console.log("QR-scanner sent a QR-code");
+        fs.readFile(__dirname + '/qr_read/most_recent_qr', 'utf8', (err, data) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+
+            data = data.split(' ').join('+');
+            getDrank(data.trim());
+        });
+    }
+});
 
 //__________________________________START PAGE_____________________________________________
 
@@ -106,32 +184,28 @@ app.get('/data', function(req, res){
     let j = 0;
     for (j; j <= last; j++)
     {
-        str = (db.exists("/myarray[" + j + "]") ? db.getData("/myarray[" + j + "]/sid") : "nop");
-        var str2 = (db.exists("/myarray[" + j + "]") ? db.getData("/myarray[" + j + "]/ssid") : "nop");
-        if (str == req.cookies["connect.sid"] || str2 == req.sessionID)
+        var sid = (db.exists("/myarray[" + j + "]") ? db.getData("/myarray[" + j + "]/sid") : "nop");
+        var ssid = (db.exists("/myarray[" + j + "]") ? db.getData("/myarray[" + j + "]/ssid") : "nop");
+        if (sid == req.cookies["connect.sid"] || ssid == req.sessionID)
         {
             res.json(db.getData("/myarray[" + j + "]"));
             break;
         }
     }
-    //console.log(req.cookies["connect.sid"]);
-    //console.log(db.getData("/myarray[" + 0 + "]/sid"));
 });
 
 app.get('/PaymentWeb.html/data', function(req, res){
     let j = 0;
     for (j; j <= last; j++)
     {
-        str = (db.exists("/myarray[" + j + "]") ? db.getData("/myarray[" + j + "]/sid") : "nop");
-        var str2 = (db.exists("/myarray[" + j + "]") ? db.getData("/myarray[" + j + "]/ssid") : "nop");
-        if (str == req.cookies["connect.sid"] || str2 == req.sessionID)
+        var sid = (db.exists("/myarray[" + j + "]") ? db.getData("/myarray[" + j + "]/sid") : "nop");
+        var ssid = (db.exists("/myarray[" + j + "]") ? db.getData("/myarray[" + j + "]/ssid") : "nop");
+        if (sid == req.cookies["connect.sid"] || ssid == req.sessionID)
         {
             res.json(db.getData("/myarray[" + j + "]"));
             break;
         }
     }
-    //console.log(req.cookies["connect.sid"]);
-    //console.log(db.getData("/myarray[" + 0 + "]/sid"));
 });
 
 //_____________________________________MAKE ORDER_________________________________________
