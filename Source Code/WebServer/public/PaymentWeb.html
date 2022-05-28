@@ -100,7 +100,7 @@
 
         function getData()
         {
-            $.get(window.location.href + '/data', {}, function(data){
+            $.get('/data', {}, function(data){
                 sid = data.sid;
                 ssid = data.ssid;
                 small_amount = data.small.amount;

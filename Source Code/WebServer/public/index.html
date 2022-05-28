@@ -39,7 +39,7 @@
             color: #fff;
         }
 
-        .content p {
+        .content p:not(#ADD, #DEL) {
             margin: 0;
             padding: 0;
             font-weight: bold;
@@ -48,7 +48,7 @@
             color: #fff;
         }
 
-        .content input {
+        .content input:not(#ADD, #DEL) {
             width: 10%;
         }
 
@@ -106,13 +106,13 @@
         }
 
         
-        #ADD {
-            width: 15%;
-            height: 8%;
-            text-align: center;
+        #ADD, #DEL {
+            color: black;
             font-weight: bold;
-            margin-left: auto;
-            display: inline-block;
+            text-align: center;
+            margin-left: 0%;
+            width: 30%;
+            margin-top: 20px;
         }
         
     </style>
@@ -122,21 +122,38 @@
 
         let sid,
             ssid,
-            small_amount,
-            medium_amount,
-            large_amount;
+            small_amount = 0,
+            medium_amount = 0,
+            large_amount = 0;
+
+        function negative()
+        {
+            try
+            {
+                if ($('#amount').val() <= ($('#selectBeer').val() == "small" ? small_amount :
+                ($('#selectBeer').val() == "medium" ? medium_amount : large_amount)))
+                {
+                    $('#amount').val(0 - $('#amount').val());
+                } else {
+                    $('#amount').val(0);
+                    throw "Can't delete more than what is on the order, nothing changed"
+                }
+            } catch(err) {
+                alert(err);
+            }
+            document.postOrder.action = "/";
+            document.postOrder.method = "post";
+        }
+
+        function positive()
+        {
+            document.postOrder.action = "/";
+            document.postOrder.method = "post";
+        }
 
         var intervalId = setInterval(function() {
-            $.get(window.location.href + 'data', {}, function(data){
-                small_amount = data.small.amount;
-                medium_amount = data.medium.amount;
-                large_amount = data.large.amount;
-
-                document.getElementById('small').innerText = small_amount;
-                document.getElementById('medium').innerText = medium_amount;
-                document.getElementById('large').innerText = large_amount;
-            });
-        }, 100);
+            getData();
+        }, 5000);
 
         function getData()
         {
@@ -146,36 +163,36 @@
                 small_amount = data.small.amount;
                 medium_amount = data.medium.amount;
                 large_amount = data.large.amount;
-                console.log(sid);
-                console.log(ssid);
-                console.log(small_amount);
-                console.log(medium_amount);
-                console.log(large_amount);
 
                 document.getElementById('small').innerText = small_amount;
                 document.getElementById('medium').innerText = medium_amount;
                 document.getElementById('large').innerText = large_amount;
-
-                /*
-                var getCookies = function(){
-                var pairs = document.cookie.split(";");
-                var cookies = {};
-                for (var i=0; i<pairs.length; i++){
-                    var pair = pairs[i].split("=");
-                    cookies[(pair[0]+'').trim()] = unescape(pair.slice(1).join('='));
-                }
-                return cookies;
-                }*/
             });
         };
+
+        function onLoad()
+        {
+            getData();
+        }
+
+        function postData()
+        {
+            console.log(sid);
+            console.log(ssid);
+            console.log(small_amount);
+            console.log(medium_amount);
+            console.log(large_amount);
+        }
+
+        window.onload = onLoad;
     </script>
 </head>
 
 <body>
     <div class="content">
         <h2>QR-Tender</h2>
-           <form method="post" action="/">
-            <p class="size">Enter # of beers <input type="number" name="amount" ></input></p>
+            <form name="postOrder">
+            <p class="size">Enter # of beers <input id="amount" type="number" name="amount" ></input></p>
             </br>
 
             <p class="size">Size of beer <select id="selectBeer" placeholder="Select size" name="size">
@@ -186,11 +203,12 @@
             <br>
 
             <div id="buttons">
-                <p><input id="ADD" type="submit" value="Submit"> </p>
+                <p><input id="ADD" type="submit" value="Submit" onclick="positive()"> </p>
+                <p><input id="DEL" type="submit" value="Delete" onclick="negative()"> </p>
             </div>
 
         </form>
-        <br><br><br><br><br><br>
+        <br><br><br><br>
         <p>
           <A id="showPaymentMethodBtn" HREF = "PaymentWeb.html">Payment methods</A>
         </p>
@@ -201,19 +219,17 @@
 
             <div id="get">
                 <p id="small1" style="width: 8%; color: white; height: 0px; display: inline-block; font-size: bold;">Small:
-                <p id="small" style="display: inline-block;" type="number" name="small"></p></p>
+                <p id="small" style="display: inline-block; height: 0px;" type="number" name="small"></p></p>
 
                 <p id="medium1" style="width: 15%; color: white; height: 0px; display: inline-block; font-size: bold;">Medium:
-                <p id="medium" style="display: inline-block;" type="number" name="medium"></p></p>
+                <p id="medium" style="display: inline-block; height: 0px;" type="number" name="medium"></p></p>
 
                 <p id="large1" style="width: 8%; color: white; height: 0px; display: inline-block; font-size: bold;">Large:
-                <p id="large" style="display: inline-block;" type="number" name="large"></p></p>
+                <p id="large" style="display: inline-block; height: 0px;" type="number" name="large"></p></p>
 
-                <input id="getData" onclick="getData()" style="margin-left: 25%;" type="submit" value="Get Data">
+                <input id="getData" onclick="postData()" style="margin-left: 25%;" type="submit" value="Get Data">
             </div>
 
     </div>
     </body>
-
-
 </html>
