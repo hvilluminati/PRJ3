@@ -2,7 +2,7 @@
 import cv2
 
 # camera setup
-capture = cv2.Videocapture(0)
+capture = cv2.VideoCapture(0)
 
 # QR scanner setup
 detector = cv2.QRCodeDetector()
