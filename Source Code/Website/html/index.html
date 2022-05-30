@@ -1,5 +1,5 @@
+<!DOCTYPE html>
 <html>
-
 <head>
     <style>
         html {
@@ -7,7 +7,7 @@
         }
 
         body {
-            background-image: url('Image/Web_bg_pic.jpeg');
+            background-image: url('image.jpeg');
             height: 100px;
             background-position: center;
             background-repeat: no-repeat;
@@ -16,15 +16,9 @@
             place-items: center;
         }
 
-        h1 {
-            color: red;
-        }
-
         .content {
             height: 350px;
             width: 400px;
-            /* filter: blur(8px);
-            -webkit-filter: blur(8px); */
             background: rgba(59, 52, 52, 0.8);
             background-position: center;
             border-radius: 10px;
@@ -35,46 +29,6 @@
             top: 30%;
         }
 
-        #payment {
-            height: 150px;
-            width: 200px;
-            /* filter: blur(8px);
-            -webkit-filter: blur(8px); */
-            background: rgba(59, 52, 52, 0.8);
-            background-position: center;
-            border-radius: 10px;
-            box-shadow: -3px -3px 9px #aaa9a9a2,
-                3px 3px 7px rgba(147, 149, 151, 0.671);
-            position: absolute;
-            left: 70%;
-            top: 30%;
-        }
-
-        #QR-kode {
-            height: 150px;
-            width: 200px;
-            /* filter: blur(8px);
-            -webkit-filter: blur(8px); */
-            background: rgba(59, 52, 52, 0.8);
-            background-position: center;
-            border-radius: 10px;
-            box-shadow: -3px -3px 9px #aaa9a9a2,
-                3px 3px 7px rgba(147, 149, 151, 0.671);
-            position: absolute;
-            left: 70%;
-            top: 55%;
-        }
-
-
-        .beerNum,
-        .amount1 {
-            height: 40px;
-            width: 30px;
-            margin-top: 10px;
-            margin-left: 20px;
-            background-color: white;
-        }
-
         .content h2 {
             margin: 0;
             padding: 0 0 20px;
@@ -83,7 +37,7 @@
             color: #fff;
         }
 
-        .content p {
+        .content p:not(#ADD, #DEL) {
             margin: 0;
             padding: 0;
             font-weight: bold;
@@ -92,7 +46,7 @@
             color: #fff;
         }
 
-        .content input {
+        .content input:not(#ADD, #DEL) {
             width: 10%;
         }
 
@@ -104,58 +58,8 @@
             color: white;
         }
 
-        #ADD {
-            width: 15%;
-            height: 8%;
-            text-align: center;
-            font-weight: bold;
-            margin-left: auto;
-            display: inline-block;
-        }
-
-        #pay {
-            width: 25%;
-            height: 18%;
-            text-align: center;
-            font-weight: bold;
-            margin-left: 40%;
-            display: inline-block;
-        }
-
-        
-        #back,
-        #cancel {
-            width: 20%;
-            height: 8%;
-            text-align: center;
-            font-weight: bold;
-            margin-left: auto;
-            display: inline-block;
-        }
-
-        #edit
-        {
-            width: 20%;
-            height: 8%;
-            text-align: center;
-            font-weight: bold;
-            margin-left: 40%;
-            /* display: inline-block; */
-        }
-
-       #delete
-        {
-            width: 20%;
-            height: 8%;
-            text-align: center;
-            font-weight: bold;
-            margin-left: 40%;
-            /* display: inline-block; */
-        }
-
-
         #demo {
-            height: 250px;
+            height: 300px;
             width: 300px;
             background: rgba(59, 52, 52, 0.8);
             border-radius: 10px;
@@ -177,43 +81,6 @@
             margin-left: 5%;
         }
 
-        #orderCount {
-            color: #fff;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        #orderSize {
-            color: #fff;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        table {
-            border: 1px solid white;
-            font-size: 20px;
-            font-weight: bold;
-            margin-left: 6%;
-
-        }
-
-        td {
-            border: 1px solid white;
-            height: 30%;
-        }
-
-        th {
-            border: 1px solid white;
-            height: 30%;
-        }
-
-        #total {
-            color: #fff;
-            font-weight: bold;
-            text-align: center;
-            width: 50%;
-        }
-
         #size {
             color: #fff;
             font-weight: bold;
@@ -221,26 +88,11 @@
             width: 50%;
         }
 
-        #id_ {
+        #small, #medium, #large {
             color: #fff;
             font-weight: bold;
             text-align: center;
             width: 30%;
-        }
-
-        #amount {
-            color: #fff;
-            font-weight: bold;
-            text-align: center;
-            width: 30%;
-        }
-
-        #size1 {
-            color: #fff;
-            font-weight: bold;
-            text-align: center;
-            margin-left: 10%;
-            width: 40%;
         }
 
         #getData {
@@ -250,94 +102,95 @@
             margin-left: 20%;
             width: 30%;
         }
-    </style>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/3.5.3/js/tabulator.min.js"></script>
-    <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/3.5.3/css/tabulator.min.css">
-    </link>
-    <script type="text/javascript">
-        function addToOrder() {
-            addProperties();
-            //bare for test i json file
-            axios.post('http://localhost:8080', {
-
-                "orderCount": document.querySelector("#orderCount").valueAsNumber,
-                "orderSize": document.querySelector("#orderSize").value
-            }).then(response => {}).catch(error => alert('Try again'));
-        }
-
-        function addProperties() {
-
-         
-          document.getElementById('selectBeer').style.visibility = "hidden",
-          document.getElementById('showPaymentMethodBtn').style.visibility = "visible",
-          document.getElementById('edit').style.visibility = "visible",
-          document.getElementById('cancel').style.visibility = "visible",
-            document.getElementById('back').style.visibility = "visible",
-            document.getElementById('ADD').style.visibility = "hidden",
-                document.getElementById('beerNum').style.visibility = "hidden",
-                document.getElementById('OrderQuantity').style.visibility = "hidden"
-                
-
-        }
-
-        function cancelOrder() {
-            document.getElementById('cancel').style.visibility = "hidden",
-                document.getElementById('OrderQuantity').value = "",
-                document.getElementById('selectBeer').value = "",
-                document.querySelector("#orderCount").innerText = 0,
-                document.getElementById('beerNum').style.visibility = "visible",
-                document.getElementById('selectBeer').style.visibility = "visible",
-                document.querySelector("#orderSize").innerText = "SMALL",
-                document.getElementById('buy').style.visibility = "hidden",
-                document.getElementById('edit').style.visibility = "hidden",
-                document.getElementById('ADD').style.visibility = "visible",
-                document.getElementById('payment').style.visibility = "hidden",
-                document.getElementById('back').style.visibility = "hidden"
-        }
 
         
-        function editData() {
+        #ADD, #DEL {
+            color: black;
+            font-weight: bold;
+            text-align: center;
+            margin-left: 0%;
+            width: 30%;
+            margin-top: 20px;
+        }
+        
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    </link>
+    <script type="text/javascript">
 
-            document.getElementById('selectBeer').style.visibility = "visible",
-            document.getElementById('ADD').style.visibility = "visible",
-                document.getElementById('cancel').style.visibility = "hidden",
-                document.getElementById('OrderQuantity').style.visibility = "visible",
-                document.getElementById('showPaymentMethodBtn').style.visibility = "hidden",
-                document.getElementById('edit').style.visibility = "hidden",
-                document.getElementById('beerNum').style.visibility = "visible",
-                document.getElementById('back').style.visibility = "visible"
+        let sid,
+            ssid,
+            small_amount = 0,
+            medium_amount = 0,
+            large_amount = 0;
+
+        function negative()
+        {
+            try
+            {
+                if ($('#amount').val() <= ($('#selectBeer').val() == "small" ? small_amount :
+                ($('#selectBeer').val() == "medium" ? medium_amount : large_amount)))
+                {
+                    $('#amount').val(0 - $('#amount').val());
+                } else {
+                    $('#amount').val(0);
+                    throw "Can't delete more than what is on the order, nothing changed"
+                }
+            } catch(err) {
+                alert(err);
+            }
+            document.postOrder.action = "/";
+            document.postOrder.method = "post";
         }
 
-
-        function showPaymentMethod() {
-            document.getElementById('payment').style.visibility = "visible"
+        function positive()
+        {
+            document.postOrder.action = "/";
+            document.postOrder.method = "post";
         }
 
-        function showQRCode() {
-            document.getElementById('QR-kode').style.visibility = "visible"
+        var intervalId = setInterval(function() {
+            getData();
+        }, 5000);
 
+        function getData()
+        {
+            $.get(window.location.href + 'data', {}, function(data){
+                sid = data.sid;
+                ssid = data.ssid;
+                small_amount = data.small.amount;
+                medium_amount = data.medium.amount;
+                large_amount = data.large.amount;
+
+                document.getElementById('small').innerText = small_amount;
+                document.getElementById('medium').innerText = medium_amount;
+                document.getElementById('large').innerText = large_amount;
+            });
+        };
+
+        function onLoad()
+        {
+            getData();
         }
 
-    //     function getData()
-    // {
-    //   $.get('http://localhost:8080/data', {}, function(data){
-    //       //  console.log(data)
-    //       document.getElementById("amount").innerText = data.amount,
-    //       document.getElementById("size1").innerText = data.size
-    //     });
-    // };
+        function postData()
+        {
+            console.log(sid);
+            console.log(ssid);
+            console.log(small_amount);
+            console.log(medium_amount);
+            console.log(large_amount);
+        }
+
+        window.onload = onLoad;
     </script>
 </head>
 
 <body>
     <div class="content">
         <h2>QR-Tender</h2>
-           <form method="post" action="/">
-            <p class="size">Enter # of beers <input type="number" ></input></p>
+            <form name="postOrder">
+            <p class="size">Enter # of beers <input id="amount" type="number" name="amount" ></input></p>
             </br>
 
             <p class="size">Size of beer <select id="selectBeer" placeholder="Select size" name="size">
@@ -348,108 +201,33 @@
             <br>
 
             <div id="buttons">
-                <p><input id="ADD" onclick="addProperties()"  value="Submit"> </p>
-            </div>>
-          
-            <p>
-               <input id="cancel" onclick="window.location.reload();" type="button" value="Cancel" style="visibility: hidden">
-           
-              </p>
+                <p><input id="ADD" type="submit" value="Submit" onclick="positive()"> </p>
+                <p><input id="DEL" type="submit" value="Delete" onclick="negative()"> </p>
+            </div>
+
         </form>
-       
-
-        <div id="buttons">
-            <form method="put" action="/">
-                <input id="edit" onclick="editData()" value="Edit" style="visibility: hidden">
-            </form>
-        </div>
-        <br>
+        <br><br><br><br>
         <p>
-          <A id="showPaymentMethodBtn" HREF = "PaymentWeb.html" style="visibility: hidden">Payment methods</A>
-      </p>
-
-        <div id="buttons">
-            <form method="delete" action="/">
-                <input id="delete" type="submit" value="Delete" style="visibility: hidden">
-            </form>
-        </div>
+          <A id="showPaymentMethodBtn" HREF = "PaymentWeb.html">Payment methods</A>
+        </p>
     </div>
+
     <div id="demo">
         <h3 id="dem0h3"> Add items to Basket </h2>
+
             <div id="get">
-                <form action="/" method="get">
-                    <p id="amount1" style="color: white;" style="font-size: bold;">Amount:
-                    <p id="amount" type="number" name="amount"></p>
-                    </p>
-                    </br>
-                    <p style="color: white;" style="font-size: bold;"> Size:
-                    <p id="size1" type="text" name="size"></p>
-                    </p>
-                    </br>
-                    <input id="getData" onclick="getData()" style="margin-left: 25%;" type="submit" value="Get Data">
-                </form>
+                <p id="small1" style="width: 8%; color: white; height: 0px; display: inline-block; font-size: bold;">Small:
+                <p id="small" style="display: inline-block; height: 0px;" type="number" name="small"></p></p>
+
+                <p id="medium1" style="width: 15%; color: white; height: 0px; display: inline-block; font-size: bold;">Medium:
+                <p id="medium" style="display: inline-block; height: 0px;" type="number" name="medium"></p></p>
+
+                <p id="large1" style="width: 8%; color: white; height: 0px; display: inline-block; font-size: bold;">Large:
+                <p id="large" style="display: inline-block; height: 0px;" type="number" name="large"></p></p>
+
+                <input id="getData" onclick="postData()" style="margin-left: 25%;" type="submit" value="Get Data">
             </div>
+
     </div>
     </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     <!-- <form action="">
-			<p>Order Quantity <input id="OrderQuantity" placeholder="#" type="number" style="width: 60px">
-			</p>
-			<br>
-			<p class="size">Size of Order <select id="selectBeer" placeholder="Select size">
-					<option value="small">SMALL</option>
-					<option value="medium">MEDIUM</option>
-					<option value="large">LARGE</option>
-				</select>
-			</p>
-			<br>
-			<div id="buttons">
-				<p>
-					<input id="ADD" onclick="addToOrder()" type="button" value="ADD">
-				</p>
-				<p>
-					<input id="showPaymentMethodBtn" onclick="showPaymentMethod()" type="button" value="Pay methods" style="visibility: hidden">
-				</p>
-				<p>
-					<input id="edit" onclick="editData()" type="button" value="Edit" style="visibility: hidden">
-				</p>
-        <p>
-
-          <button  id="back" onclick="history.back()" style="visibility: hidden">Back</button>
-        </p>
-				<p>
-					<input id="cancel" onclick="cancelOrder()" type="button" value="Cancel" style="visibility: hidden">
-				</p>
-			</div>
-		</form> -->
